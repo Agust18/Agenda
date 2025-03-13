@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<body>
+    <div>
+        <header>
+            <h1 class="tittle">El rincon del Barbero</h1>
+        </header>
+    </div>
+    <div>
+        <input class="inputDni" type="number" placeholder="Dni">
+        <input class="inputNombre" type="text" placeholder="Nombre">
+        <input class="inputEmail" type="email" placeholder="Email">
+        <input class="inputTelefono" type="number" placeholder="Telefono">
+        <button class="cargarUser">Cargar</button>
+        <br>
+        <br>
+        <label>Usuarios Cargados</label>
+        <select class="selectUser">
+            <option value="0">Usuarios<option>
+
+        </select>
+        <br>
+        <br>
+        <div>
+            <label>Selecciona su horario de reunion disponible</label>
+            <select  class="horarios">
+                <option value="0">horarios</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="12:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+            </select>
+            <input class="asunto" type="text" placeholder="Asunto">
+            <button class="reunion">Cargar reunion</button>
+            
+
+        </div>
+       
+
+    </div>
+    <div>
+        <div>
+            <table class="tablaAgenda">
+                <thead>
+                    <tr>
+                        <th>Dni</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Telefono</th>
+                        <th>Horario</th>
+                        <th>Asunto</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+    
+            <div class="mensaje"></div>
+        </div>
+    </div>
+    <script src="agenda.js"></script>
+</body>
+</html>

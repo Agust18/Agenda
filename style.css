@@ -1,0 +1,53 @@
+/* Estilos para los inputs */
+.inputDni,
+.inputNombre,
+.inputEmail,
+.inputTelefono,
+.asunto {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 200px;
+}
+
+/* Estilos para el botón */
+.cargarUser,
+.reunion {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Estilos para el select */
+.selectUser,
+.horarios {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 200px;
+}
+
+/* Estilos para la tabla */
+.tablaAgenda {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tablaAgenda th,
+.tablaAgenda td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tablaAgenda th {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para el mensaje */
+.mensaje {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
