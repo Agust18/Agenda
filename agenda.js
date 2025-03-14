@@ -96,11 +96,12 @@ cargarReunion.addEventListener("click",function(){
             horario: horario,
             asunto: asunto
         }),
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
+        mode: "no-cors"  // Deshabilitar la verificación CORS
     })
-    .then(response => response.text())
-    .then(data => console.log(data))
+    .then(response => console.log("Data received:", response))
     .catch(error => console.error("Error:", error));
+    
     
 
     if (agenda[horario].length != 0) {
