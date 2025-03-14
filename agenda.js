@@ -80,12 +80,31 @@ function seleccionarUser(){
 
 }
 
-cargarReunion.addEventListener("click",function(){
+cargarReunion.addEventListener("click", function() {
     var horario = horarios.value;
     var asunto = inputAsunto.value;
     var persona = selectUser.value;
     var personaCompleta = personas[persona];
 
+    // Verificar si el horario está ocupado
+    if (agenda[horario] && agenda[horario].length > 0) {
+        alert("El horario ya está ocupado");
+        return false;
+    }
+
+    // Verifica si el horario fue seleccionado
+    if (horario == "") {
+        alert("Debe seleccionar un horario");
+        return false;
+    }
+
+    // Verifica si el asunto fue ingresado
+    if (asunto == "") {
+        alert("Debe ingresar un asunto");
+        return false;
+    }
+
+    // Realiza la llamada a Google Apps Script
     fetch("https://script.google.com/macros/s/AKfycbybmprrqDm0UKRm1UxT_Qgl6ow9gJya0bztTsdBGeHPAiWLIVGN2RWHL55oLoWFdWle/exec", {
         method: "POST",
         body: JSON.stringify({
@@ -96,73 +115,83 @@ cargarReunion.addEventListener("click",function(){
             horario: horario,
             asunto: asunto
         }),
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors"  // Deshabilitar la verificación CORS
+        headers: { "Content-Type": "application/json" }
     })
-    .then(response => console.log("Data received:", response))
-    .catch(error => console.error("Error:", error));
+    .then(response => response.json())
+    .then(data => {
+        // Si la respuesta es exitosa, actualiza el horario en la agenda
+        if (data.status === "success") {
+            agenda[horario] = {
+                "asunto": asunto,
+                "persona": persona,
+                "datos": personaCompleta
+            };
 
-     // **DESHABILITAR EL HORARIO SELECCIONADO**
-     let option = horarios.querySelector(`option[value="${horario}"]`);
-     if (option) {
-         option.disabled = true;
-     }
-    
-    
+            // Deshabilita el horario seleccionado en el HTML
+            let option = horarios.querySelector(`option[value="${horario}"]`);
+            if (option) {
+                option.disabled = true;
+            }
 
-    if (agenda[horario].length != 0) {
-        alert("el horario esta ocupado")
-        return false;
-    }
-    if (horario == "") {
-        alert("Debe seleccionar un horario")
-        return false;
-    }
+            // Actualiza la tabla con los nuevos datos
+            mostrartabla();
 
-    if (asunto == "") {
-        alert("Debe ingresar un asunto")
-        return false;
-    }
+            // Guarda el horario deshabilitado en el localStorage
+            let horariosOcupados = JSON.parse(localStorage.getItem("horariosOcupados")) || [];
+            horariosOcupados.push(horario);
+            localStorage.setItem("horariosOcupados", JSON.stringify(horariosOcupados));
+        } else {
+            alert("Error al guardar los datos: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Hubo un error al procesar la solicitud.");
+    });
+});
 
-    agenda[horario] = {
-        "asunto" : asunto,
-        "persona": persona,
-        "datos" :  personaCompleta,
-        
-    }
-    console.log(agenda);
-    mostrartabla()
-})
+// Cargar el estado de los horarios deshabilitados al recargar la página
+window.onload = function() {
+    // Recuperar los horarios ocupados de localStorage
+    var horariosOcupados = JSON.parse(localStorage.getItem("horariosOcupados")) || [];
 
-function mostrartabla(){ 
-    tablaAgenda.innerHTML = "";
+    // Deshabilitar los horarios ocupados en el select
+    horariosOcupados.forEach(function(horario) {
+        let option = horarios.querySelector(`option[value="${horario}"]`);
+        if (option) {
+            option.disabled = true;
+        }
+    });
+};
 
-    for (horario in agenda) { 
-        var selechorario = agenda[horario]
+// Función para actualizar la tabla de agenda
+function mostrartabla() {
+    tablaAgenda.innerHTML = ""; // Vacía la tabla antes de actualizarla
+
+    for (var horario in agenda) {
+        var selechorario = agenda[horario];
         var dni = selechorario['persona'];
         var personaCompleta = personas[dni];
-        
-        if (selechorario.length == 0) {
-            tablaAgenda.innerHTML += `<tr>
-            <td>-</td>
-            <td>${horario}</td>
-            <td>-</td>
+
+        if (!selechorario) {
+            tablaAgenda.innerHTML += `
+            <tr>
+                <td>-</td>
+                <td>${horario}</td>
+                <td>-</td>
             </tr>
-            `
+            `;
         } else {
-            tablaAgenda.innerHTML += `<tr>
-            
-            <td>${personaCompleta['dni']}</td>
-            <td>${personaCompleta['nombre']}
-            <td>${personaCompleta['email']}</td>
-            <td>${personaCompleta['telefono']}</td>
-            <td>${horario}</td>
-            <td>${selechorario['asunto']}</td>
-            
+            tablaAgenda.innerHTML += `
+            <tr>
+                <td>${personaCompleta['dni']}</td>
+                <td>${personaCompleta['nombre']}</td>
+                <td>${personaCompleta['email']}</td>
+                <td>${personaCompleta['telefono']}</td>
+                <td>${horario}</td>
+                <td>${selechorario['asunto']}</td>
             </tr>
-            `
+            `;
         }
     }
 }
-
-mostrartabla();
