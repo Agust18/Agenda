@@ -86,7 +86,7 @@ cargarReunion.addEventListener("click",function(){
     var persona = selectUser.value;
     var personaCompleta = personas[persona];
 
-    fetch("https://script.google.com/macros/s/AKfycbwtETWXW49efxpPAe_UbNG3n9fpqCVg0C5Jsn8m_XtSE_1UAdMpN-O9aF8k7STQ-sGqnw/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbwpvaMPAyXF-P8lo7RBbL56M1zo-PoK51iW-DlFQbPYhWTlaocRmVI7_l8gNRSYTNL-vw/exec", {
         method: "POST",
         body: JSON.stringify({
             dni: personaCompleta.dni,
