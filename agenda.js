@@ -101,6 +101,12 @@ cargarReunion.addEventListener("click",function(){
     })
     .then(response => console.log("Data received:", response))
     .catch(error => console.error("Error:", error));
+
+     // **DESHABILITAR EL HORARIO SELECCIONADO**
+     let option = horarios.querySelector(`option[value="${horario}"]`);
+     if (option) {
+         option.disabled = true;
+     }
     
     
 
